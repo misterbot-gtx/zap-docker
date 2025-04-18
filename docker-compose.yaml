@@ -1,0 +1,78 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: whaticket_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    container_name: whaticket_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+
+  whaticket_backend:
+    image: ghcr.io/misterbot-gtx/whaticket-backend:latest
+    container_name: whaticket_backend
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - DB_DIALECT=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - TZ=${TZ}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
+      - PORT=${PORT}
+      - PROXY_PORT=${PROXY_PORT}
+      - BACKEND_URL=${BACKEND_URL_BACKEND}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - CHROME_ARGS=${CHROME_ARGS}
+      - REDIS_URI=redis://redis:6379
+      - REDIS_OPT_LIMITER_MAX=${REDIS_OPT_LIMITER_MAX}
+      - REDIS_OPT_LIMITER_DURATION=${REDIS_OPT_LIMITER_DURATION}
+      - GERENCIANET_SANDBOX=${GERENCIANET_SANDBOX}
+      - GERENCIANET_CLIENT_ID=${GERENCIANET_CLIENT_ID}
+      - GERENCIANET_CLIENT_SECRET=${GERENCIANET_CLIENT_SECRET}
+      - GERENCIANET_PIX_CERT=${GERENCIANET_PIX_CERT}
+      - GERENCIANET_PIX_KEY=${GERENCIANET_PIX_KEY}
+      - USER_LIMIT=${USER_LIMIT}
+      - CONNECTIONS_LIMIT=${CONNECTIONS_LIMIT}
+      - CLOSED_SEND_BY_ME=${CLOSED_SEND_BY_ME}
+      - MAIL_HOST=${MAIL_HOST}
+      - MAIL_USER=${MAIL_USER}
+      - MAIL_PASS=${MAIL_PASS}
+      - MAIL_FROM=${MAIL_FROM}
+      - MAIL_PORT=${MAIL_PORT}
+    ports:
+      - "${PORT}:${PORT}"
+
+  whaticket_frontend:
+    image: ghcr.io/misterbot-gtx/whaticket-frontend:latest
+    container_name: whaticket_frontend
+    restart: always
+    environment:
+      - BACKEND_URL=${BACKEND_URL}
+      - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
+      - REACT_APP_HOURS_CLOSE_TICKETS_AUTO=${REACT_APP_HOURS_CLOSE_TICKETS_AUTO}
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:
+  redisdata:
