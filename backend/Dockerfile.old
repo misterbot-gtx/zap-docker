@@ -1,0 +1,34 @@
+# Etapa 1: build
+FROM node:18 AS builder
+
+WORKDIR /backend
+
+COPY package*.json ./ 
+COPY tsconfig.json ./
+RUN npm install
+
+COPY . . 
+RUN npm run build
+
+# Etapa 2: produção
+FROM node:18
+
+WORKDIR /backend
+
+COPY package*.json ./ 
+RUN npm install --only=production
+
+COPY --from=builder /backend/dist ./dist
+COPY .env ./ 
+COPY certs ./certs
+
+# Adiciona o Sequelize CLI globalmente (ou como devDependency no package.json se preferir)
+RUN npm install -g sequelize-cli
+
+# Executa as migrations e seeds com config JS
+RUN npx sequelize db:migrate --config dist/config/database.js
+RUN npx sequelize db:seed:all --config dist/config/database.js
+
+EXPOSE 8081
+
+CMD ["node", "dist/server.js"]
