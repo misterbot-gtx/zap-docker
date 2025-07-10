@@ -19,6 +19,7 @@
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta http-equiv="Expires" content="0">
 	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="%PUBLIC_URL%/config.js"></script>
 	<style>
 		/* Basic styles for the splash screen */
 		#splash-screen {
@@ -31,38 +32,46 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			background-color: rgba(240, 240, 240, 0.8); /* Cor e opacidade da camada semi-transparente */
+			background-color: rgba(240, 240, 240, 0.8);
+			/* Cor e opacidade da camada semi-transparente */
 			/* 50% grey */
 			z-index: 9999;
 		}
 
-        #splash-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
+		#splash-content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+		}
 
-        .loading-text {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #666; /* Cor do texto de carregamento */
-        }
+		.loading-text {
+			font-size: 24px;
+			margin-bottom: 20px;
+			color: #666;
+			/* Cor do texto de carregamento */
+		}
 
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid #666; /* Cor do spinner */
-            border-top: 4px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
+		.loading-spinner {
+			width: 60px;
+			height: 60px;
+			border: 4px solid #666;
+			/* Cor do spinner */
+			border-top: 4px solid transparent;
+			border-radius: 50%;
+			animation: spin 1s linear infinite;
+			margin-bottom: 20px;
+		}
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+			}
+		}
 
 
 		.progress-bar {
@@ -84,20 +93,20 @@
 	</style>
 	<!-- Issue workaround for React v16. -->
 	<script>
-        // See https://github.com/facebook/react/issues/20829#issuecomment-802088260
-        if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;
-    </script>
+		// See https://github.com/facebook/react/issues/20829#issuecomment-802088260
+		if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;
+	</script>
 </head>
 
 <body>
 	<div id="splash-screen">
 		<div id="splash-content">
-            <div class="loading-spinner"></div>
-            <div class="loading-text">Carregando...</div>
-            <div class="progress-bar">
-                <div class="progress" id="progress-bar"></div>
-            </div>
-        </div>
+			<div class="loading-spinner"></div>
+			<div class="loading-text">Carregando...</div>
+			<div class="progress-bar">
+				<div class="progress" id="progress-bar"></div>
+			</div>
+		</div>
 	</div>
 	<div id="root"></div>
 	<noscript>You need to enable JavaScript to run this app.</noscript>
@@ -107,32 +116,32 @@
 		progress = 0;
 		const progressBar = document.getElementById('progress-bar');
 		const interval = setInterval(() => {
-		  if (progress < 50) {
-		    progress += 10;
-		  } else if (progress < 80) {
-		    progress += 3;
-		  } else if (progress < 99) {
-		    progress += ( (99-progress) / 20 );
-		  }
-		  progressBar.style.width = progress + '%';
-		  
-		  if (progress >= 100) {
-        clearInterval(interval);
-		    setTimeout(() => {
-          const splashScreen = document.getElementById('splash-screen');
-          splashScreen.remove();
-		    }, 500);
-		  }
+			if (progress < 50) {
+				progress += 10;
+			} else if (progress < 80) {
+				progress += 3;
+			} else if (progress < 99) {
+				progress += ((99 - progress) / 20);
+			}
+			progressBar.style.width = progress + '%';
+
+			if (progress >= 100) {
+				clearInterval(interval);
+				setTimeout(() => {
+					const splashScreen = document.getElementById('splash-screen');
+					splashScreen.remove();
+				}, 500);
+			}
 		}, 1000);
-    window.finishProgress=() => {
-      progress = 100;
-    }
-	// Remover a tela de carregamento quando todos os elementos terminarem de carregar
-	window.onload = () => {
-            const splashOverlay = document.getElementById('splash-overlay');
-            // splashOverlay.remove();
-        };
-	</script>	
+		window.finishProgress = () => {
+			progress = 100;
+		}
+		// Remover a tela de carregamento quando todos os elementos terminarem de carregar
+		window.onload = () => {
+			const splashOverlay = document.getElementById('splash-overlay');
+			// splashOverlay.remove();
+		};
+	</script>
 </body>
 
 </html>

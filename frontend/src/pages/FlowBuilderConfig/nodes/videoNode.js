@@ -12,9 +12,9 @@ import { useNodeStorage } from "../../../stores/useNodeStorage";
 
 export default memo(({ data, isConnectable, id }) => {
   const link =
-    process.env.REACT_APP_BACKEND_URL === "https://localhost:8090"
+    window.env.BACKEND_URL === "https://localhost:8090"
       ? "https://localhost:8090"
-      : process.env.REACT_APP_BACKEND_URL;
+      : window.env.BACKEND_URL;
 
   const storageItems = useNodeStorage();
 

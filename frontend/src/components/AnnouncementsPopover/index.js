@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 function AnnouncementDialog({ announcement, open, handleClose }) {
   // const getMediaPath = (filename) => {
-  //   return path.join(`${process.env.REACT_APP_BACKEND_URL}`,"public", "announcements",`${filename}`);
+  //   return path.join(`${window.env.BACKEND_URL}`,"public", "announcements",`${filename}`);
   // };
   return (
     <Dialog

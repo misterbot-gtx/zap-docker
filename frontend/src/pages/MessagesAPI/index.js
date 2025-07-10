@@ -60,7 +60,7 @@ const MessagesAPI = () => {
   }, []);
 
   const getEndpoint = () => {
-    return process.env.REACT_APP_BACKEND_URL + '/api/messages/send'
+    return window.env.BACKEND_URL + '/api/messages/send'
   }
 
   const handleSendTextMessage = async (values) => {

@@ -28,7 +28,7 @@ const useUser = () => {
   });
 
   useEffect(() => {
-    const socket = openSocket(process.env.REACT_APP_BACKEND_URL);
+    const socket = openSocket(window.env.BACKEND_URL);
 
     socket.on("users", (data) => {
       setUpdate(true);

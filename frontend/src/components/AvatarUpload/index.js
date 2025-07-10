@@ -37,24 +37,28 @@ const AvatarUploader = ({ setAvatar, avatar, companyId }) => {
     }
   };
 
+  // Aqui, você usa a variável de ambiente para montar a URL do backend
+  const backendUrl = window.env.BACKEND_URL;
+
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
-      {!previewImage && avatar ?
-        <><Avatar
-          src={`${process.env.REACT_APP_BACKEND_URL}/public/company${companyId}/user/${avatar}`}
+      {!previewImage && avatar ? (
+        <Avatar
+          src={`${backendUrl}/public/company${companyId}/user/${avatar}`}
           style={{ width: 120, height: 120 }}
-        /></>
-        : !avatar && !previewImage ? <><Avatar
-          src={`${process.env.REACT_APP_BACKEND_URL}/public/app/noimage.png`}
+        />
+      ) : !avatar && !previewImage ? (
+        <Avatar
+          src={`${backendUrl}/public/app/noimage.png`}
           style={{ width: 120, height: 120 }}
-        /></> :
-          <Avatar
-            alt="Preview Avatar"
-            src={previewImage ? previewImage : user.avatar}
-            style={{ width: 120, height: 120 }}
-          />
-      }
-
+        />
+      ) : (
+        <Avatar
+          alt="Preview Avatar"
+          src={previewImage ? previewImage : user.avatar}
+          style={{ width: 120, height: 120 }}
+        />
+      )}
 
       <input
         accept="image/*"
@@ -72,7 +76,6 @@ const AvatarUploader = ({ setAvatar, avatar, companyId }) => {
           Upload Avatar
         </Button>
       </label>
-      {/**   <p>{selectedFile ? `Selected: ${selectedFile.name}` : 'No file selected'}</p>*/}
     </Box>
   );
 };

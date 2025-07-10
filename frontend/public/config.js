@@ -1,0 +1,4 @@
+window.env = {
+    BACKEND_URL: "__BACKEND_URL__",
+    REACT_APP_HOURS_CLOSE_TICKETS_AUTO: "24"
+  };

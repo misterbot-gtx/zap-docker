@@ -16,7 +16,7 @@ class SocketWorker {
   }
 
   configureSocket() {
-    this.socket = io(`${process.env.REACT_APP_BACKEND_URL}/${this?.companyId}` , {
+    this.socket = io(`${window.env.BACKEND_URL}/${this?.companyId}` , {
       autoConnect: true,
       reconnection: true,
       reconnectionDelay: 1000,

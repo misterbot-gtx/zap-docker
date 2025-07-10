@@ -22,7 +22,7 @@ const InfoMP = () => {
     setOpen(false);
   };
   const getEndpoint = () => {
-    return process.env.REACT_APP_BACKEND_URL + '/subscription/webhook/'
+    return window.env.BACKEND_URL + '/subscription/webhook/'
   }
 
   return (
